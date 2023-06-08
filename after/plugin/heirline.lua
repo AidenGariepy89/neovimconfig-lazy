@@ -74,7 +74,6 @@ local ViMode = {
     -- control the padding and make sure our string is always at least 2
     -- characters long. Plus a nice Icon.
     provider = function(self)
-        -- return " %2("..self.mode_names[self.mode].."%)"
         return " %2(" .. self.mode_names[self.mode] .. "%)"
     end,
     -- Same goes for the highlight. Now the foreground will change according to the current mode.
@@ -210,7 +209,9 @@ local FileLastModified = {
 
 local Ruler = {
     provider = "%7(%l/%3L%):%2c %P",
+    hl = { fg = "lavender" }
 }
+
 
 local ScrollBar = {
     static = {
@@ -222,14 +223,14 @@ local ScrollBar = {
         local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
         return string.rep(self.sbar[i], 2)
     end,
-    h1 = { fg = "blue", bg = "mantle" },
+    hl = { fg = "blue", bg = "mantle" },
 }
 
 local LSPActive = {
     update = { 'LspAttach', 'LspDetach' },
     provider = function()
         local names = {}
-        for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+        for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
             table.insert(names, server.name)
         end
         return " [" .. table.concat(names, " ") .. "]"
@@ -332,26 +333,19 @@ local HelpFile = {
 
 local Diagnostics = {
     condition = conditions.has_diagnostics,
-
     static = {
         error_icon = '', --vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
         warn_icon = '', --vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
         info_icon = '', --vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
         hint_icon = '', --vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
     },
-
     init = function(self)
         self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
         self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
         self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
     end,
-
     update = { "DiagnosticChanged", "BufEnter" },
-
-    -- {
-    --     provider = "![",
-    -- },
     {
         provider = function(self)
             -- 0 is just another output, we can decide to print it or not!
@@ -377,10 +371,9 @@ local Diagnostics = {
         end,
         hl = { fg = "teal" },
     },
-    -- {
-    --     provider = "]",
-    -- },
 }
+
+-- Navic ?
 
 -- Putting it together
 
