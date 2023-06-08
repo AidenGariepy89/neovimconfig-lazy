@@ -24,6 +24,7 @@ local plugins = {
     { 'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async' },
     'Pocco81/true-zen.nvim',
     'rebelot/heirline.nvim',
+    { 'SmiteshP/nvim-navic', dependencies = 'neovim/nvim-lspconfig' },
 
     {
         'nvim-neo-tree/neo-tree.nvim',

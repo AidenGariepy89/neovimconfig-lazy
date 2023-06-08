@@ -7,6 +7,7 @@ lsp.ensure_installed({
     'lua_ls',
 })
 
+local navic = require('nvim-navic')
 require('lspconfig').lua_ls.setup({
     settings = {
         Lua = {
@@ -14,7 +15,10 @@ require('lspconfig').lua_ls.setup({
                 globals = { 'vim', 'use' }
             }
         }
-    }
+    },
+    on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+    end,
 })
 
 local cmp = require('cmp')
