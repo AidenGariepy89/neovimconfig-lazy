@@ -13,7 +13,8 @@ local ViMode = {
     -- corresponding string and color. We can put these into `static` to compute
     -- them at initialisation time.
     static = {
-        mode_names = { -- change the strings if you like it vvvvverbose!
+        mode_names = {
+            -- change the strings if you like it vvvvverbose!
             n = "N",
             no = "N?",
             nov = "N?",
@@ -50,19 +51,19 @@ local ViMode = {
             t = "T",
         },
         mode_colors = {
-            n = "red" ,
+            n = "red",
             i = "green",
             v = "blue",
-            V =  "blue",
-            ["\22"] =  "blue",
-            c =  "yellow",
-            s =  "pink",
-            S =  "pink",
-            ["\19"] =  "pink",
-            R =  "yellow",
-            r =  "yellow",
-            ["!"] =  "red",
-            t =  "red",
+            V = "blue",
+            ["\22"] = "blue",
+            c = "yellow",
+            s = "pink",
+            S = "pink",
+            ["\19"] = "pink",
+            R = "yellow",
+            r = "yellow",
+            ["!"] = "red",
+            t = "red",
         }
     },
     -- We can now access the value of mode() that, by now, would have been
@@ -74,7 +75,7 @@ local ViMode = {
     -- characters long. Plus a nice Icon.
     provider = function(self)
         -- return " %2("..self.mode_names[self.mode].."%)"
-        return " %2("..self.mode_names[self.mode].."%)"
+        return " %2(" .. self.mode_names[self.mode] .. "%)"
     end,
     -- Same goes for the highlight. Now the foreground will change according to the current mode.
     hl = function(self)
@@ -114,6 +115,9 @@ local FileIcon = {
 
 local FileName = {
     init = function(self)
+        if self.filename == nil then
+            self.filename = vim.api.nvim_buf_get_name(0)
+        end
         self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
         if self.lfilename == "" then self.lfilename = "[No Name]" end
     end,
@@ -190,7 +194,7 @@ local FileSize = {
         local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
         fsize = (fsize < 0 and 0) or fsize
         if fsize < 1024 then
-            return fsize..suffix[1]
+            return fsize .. suffix[1]
         end
         local i = math.floor((math.log(fsize) / math.log(1024)))
         return string.format("%.2g%s", fsize / math.pow(1024, i), suffix[i + 1])
@@ -326,6 +330,58 @@ local HelpFile = {
     hl = { fg = "blue" }
 }
 
+local Diagnostics = {
+    condition = conditions.has_diagnostics,
+
+    static = {
+        error_icon = '', --vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+        warn_icon = '', --vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+        info_icon = '', --vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+        hint_icon = '', --vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+    },
+
+    init = function(self)
+        self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+        self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+        self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+        self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+    end,
+
+    update = { "DiagnosticChanged", "BufEnter" },
+
+    -- {
+    --     provider = "![",
+    -- },
+    {
+        provider = function(self)
+            -- 0 is just another output, we can decide to print it or not!
+            return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+        end,
+        hl = { fg = "red" },
+    },
+    {
+        provider = function(self)
+            return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+        end,
+        hl = { fg = "yellow" },
+    },
+    {
+        provider = function(self)
+            return self.info > 0 and (self.info_icon .. self.info .. " ")
+        end,
+        hl = { fg = "blue" },
+    },
+    {
+        provider = function(self)
+            return self.hints > 0 and (self.hint_icon .. self.hints)
+        end,
+        hl = { fg = "teal" },
+    },
+    -- {
+    --     provider = "]",
+    -- },
+}
+
 -- Putting it together
 
 local Align = { provider = '%=' }
@@ -334,8 +390,8 @@ local Space = { provider = ' ' }
 ViMode = utils.surround({ "", "" }, "surface0", { ViMode, })
 
 local DefaultStatusline = {
-    ViMode, Space, FileNameBlock, Space, Git, Align,
-    WorkDir, Align,
+    ViMode, Space, WorkDir, Space, FileNameBlock, Space, Git, Align,
+    Diagnostics, Align,
     LSPActive, Space, FileType, Space, Ruler, Space, ScrollBar
 }
 
@@ -346,19 +402,29 @@ local SpecialStatusline = {
             filetype = { "fugitive", "neo-tree" },
         })
     end,
-    FileType, Space, HelpFile, Align
+    FileType,
+    Space,
+    HelpFile,
+    Align
 }
 
 local TerminalStatusline = {
     condition = function()
         return conditions.buffer_matches({ buftype = { "terminal" } })
     end,
-    { condition = conditions.is_active, ViMode, Space }, FileType, Space, TerminalName, Align,
+    { condition = conditions.is_active, ViMode, Space },
+    FileType,
+    Space,
+    TerminalName,
+    Align,
 }
 
 local InactiveStatusline = {
     condition = conditions.is_not_active,
-    FileNameBlock, Space, FileType, Align
+    FileNameBlock,
+    Space,
+    FileType,
+    Align
 }
 
 local StatusLines = {
@@ -371,7 +437,10 @@ local StatusLines = {
     end,
     fallthrough = false,
     -- SpecialStatusline, TerminalStatusline, DefaultStatusline
-    SpecialStatusline, TerminalStatusline, InactiveStatusline, DefaultStatusline
+    SpecialStatusline,
+    TerminalStatusline,
+    InactiveStatusline,
+    DefaultStatusline
 }
 
 require('heirline').setup({
@@ -380,5 +449,3 @@ require('heirline').setup({
     },
     statusline = StatusLines,
 })
-
-
