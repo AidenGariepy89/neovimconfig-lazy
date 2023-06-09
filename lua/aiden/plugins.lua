@@ -21,7 +21,7 @@ local plugins = {
     'tpope/vim-fugitive',
     'tpope/vim-commentary',
     { 'lewis6991/gitsigns.nvim', tag = 'release', config = function() require('gitsigns').setup() end },
-    { 'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async' },
+    { 'kevinhwang91/nvim-ufo',   dependencies = 'kevinhwang91/promise-async' },
     'Pocco81/true-zen.nvim',
     'rebelot/heirline.nvim',
     { 'SmiteshP/nvim-navic', dependencies = 'neovim/nvim-lspconfig' },
@@ -37,25 +37,25 @@ local plugins = {
     },
     {
         'VonHeikemen/lsp-zero.nvim',
+        branch = 'v2.x',
         dependencies = {
             -- LSP Support
-            { 'neovim/nvim-lspconfig' },             -- Required
-            { 'williamboman/mason.nvim' },           -- Optional
+            { 'neovim/nvim-lspconfig' }, -- Required
+            {
+                                 -- Optional
+                'williamboman/mason.nvim',
+                build = function()
+                    pcall(vim.cmd, 'MasonUpdate')
+                end,
+            },
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },         -- Required
-            { 'hrsh7th/cmp-nvim-lsp' },     -- Required
-            { 'hrsh7th/cmp-buffer' },       -- Optional
-            { 'hrsh7th/cmp-path' },         -- Optional
-            { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-            { 'hrsh7th/cmp-nvim-lua' },     -- Optional
-
-            -- Snippets
-            { 'L3MON4D3/LuaSnip' },             -- Required
-            { 'rafamadriz/friendly-snippets' }, -- Optional
+            { 'hrsh7th/nvim-cmp' }, -- Required
+            { 'hrsh7th/cmp-nvim-lsp' }, -- Required
+            { 'L3MON4D3/LuaSnip' }, -- Required
         }
-    }
+    },
 }
 
 local opts = {
