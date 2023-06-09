@@ -1,4 +1,4 @@
-require('navic').setup {
+require('nvim-navic').setup {
     icons = {
         File          = "󰈙 ",
         Module        = " ",
