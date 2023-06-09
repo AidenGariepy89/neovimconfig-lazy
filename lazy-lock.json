@@ -1,6 +1,7 @@
 {
   "LuaSnip": { "branch": "master", "commit": "a13af80734eb28f744de6c875330c9d3c24b5f3b" },
   "catppuccin": { "branch": "main", "commit": "233c4175780d9b4e39ae4fe4535c1e4c14bd76ed" },
+  "cellular-automaton.nvim": { "branch": "main", "commit": "679943b8e1e5ef79aaeeaf4b00782c52eb4e928f" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "0e6b2ed705ddcff9738ec4ea838141654f12eeef" },
   "gitsigns.nvim": { "branch": "main", "commit": "bb808fc7376ed7bac0fbe8f47b83d4bf01738167" },
   "harpoon": { "branch": "master", "commit": "21f4c47c6803d64ddb934a5b314dcb1b8e7365dc" },
