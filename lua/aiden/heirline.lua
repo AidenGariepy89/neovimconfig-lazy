@@ -170,7 +170,8 @@ local FileType = {
     provider = function()
         return string.upper(vim.bo.filetype)
     end,
-    hl = { fg = utils.get_highlight("Type").fg, bold = true },
+--    hl = { fg = utils.get_highlight("Type").fg, bold = true },
+    hl = { fg = 'yellow', bold = true },
 }
 
 local FileEncoding = {
@@ -486,7 +487,7 @@ local SpecialStatusline = {
     condition = function()
         return conditions.buffer_matches({
             buftype = { "nofile", "prompt", "help", "quickfix" },
-            filetype = { "fugitive", "neo-tree" },
+            filetype = { "fugitive", "neo-tree", "netrw" },
         })
     end,
     FileType,
@@ -536,3 +537,4 @@ require('heirline').setup({
     },
     statusline = StatusLines,
 })
+

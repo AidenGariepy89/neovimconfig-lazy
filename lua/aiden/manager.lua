@@ -5,14 +5,26 @@ M.toggle_neotree = function()
     if active == true then
         vim.cmd("Neotree close")
     else
-        vim.cmd("Neotree reveal_file=%")
+        local path = vim.api.nvim_buf_get_name(0)
+        local f = io.open(path, "r")
+        if f ~= nil then
+            io.close(f)
+            vim.cmd("Neotree reveal_file=%")
+        else
+            vim.cmd("Neotree toggle")
+        end
     end
 end
 
 M.update_neotree = function()
     local active = M.is_neotree_active()
-    if active == true and vim.fn.expand('%') ~= 'neo-tree filesystem [1]' then
-        vim.cmd("Neotree show reveal_file=%")
+    if active == true then
+        local path = vim.api.nvim_buf_get_name(0)
+        local f = io.open(path, "r")
+        if f ~= nil then
+            io.close(f)
+            vim.cmd("Neotree show reveal_file=%")
+        end
     end
 end
 

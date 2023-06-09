@@ -39,3 +39,4 @@ require('nvim-navic').setup {
     click = false
 }
 
+
