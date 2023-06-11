@@ -1,6 +1,7 @@
 local conditions = require('heirline.conditions')
 local utils = require('heirline.utils')
 local colors = require('catppuccin.palettes').get_palette('mocha')
+local get_icon = require('aiden.utils').get_icon
 
 local ViMode = {
     -- get vim current mode, this information will be required by the provider
@@ -233,7 +234,7 @@ local LSPActive = {
         for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
             table.insert(names, server.name)
         end
-        return " [" .. table.concat(names, " ") .. "]"
+        return get_icon("ActiveLSP", 1) .. "[" .. table.concat(names, " ") .. "]"
     end,
     hl = { fg = "green", bold = true },
 }
@@ -247,7 +248,7 @@ local Git = {
     hl = { fg = "rosewater" },
     {
         provider = function(self)
-            return " " .. self.status_dict.head
+            return get_icon("GitBranch", 1) .. self.status_dict.head
         end,
         hl = { bold = true }
     },
@@ -288,7 +289,7 @@ local Git = {
 
 local WorkDir = {
     init = function(self)
-        self.icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. " "
+        self.icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. get_icon("FolderClosed", 1)
         local cwd = vim.fn.getcwd(0)
         self.cwd = vim.fn.fnamemodify(cwd, ":~")
     end,
@@ -315,7 +316,7 @@ local WorkDir = {
 local TerminalName = {
     provider = function()
         local tname, _ = vim.api.nvim_buf_get_name(0):gsub(".*:", "")
-        return " " .. tname
+        return get_icon("Terminal", 1) .. tname
     end,
     hl = { fg = "blue" }
 }
@@ -334,10 +335,10 @@ local HelpFile = {
 local Diagnostics = {
     condition = conditions.has_diagnostics,
     static = {
-        error_icon = '', --vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-        warn_icon = '', --vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-        info_icon = '', --vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-        hint_icon = '', --vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+        error_icon = get_icon('DiagnosticError'),   -- '',
+        warn_icon =  get_icon('DiagnosticWarn'),   --'',
+        info_icon = get_icon('DiagnosticInfo'),    --'',
+        hint_icon = get_icon('DiagnosticHint'),    --'',
     },
     init = function(self)
         self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
