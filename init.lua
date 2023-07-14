@@ -25,4 +25,4 @@ require("lazy").setup("aiden.plugins", {
     },
 })
 
-vim.cmd('color catppuccin-mocha')
+require('aiden.utils').set_color()
