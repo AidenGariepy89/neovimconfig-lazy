@@ -8,11 +8,8 @@ return {
     },
     init = function() vim.g.neo_tree_remove_legacy_commands = true end,
     config = function()
-        -- local manager = require('aiden.manager')
-
-        -- vim.keymap.set('n', '<leader>e', manager.toggle_neotree)
-        -- vim.keymap.set('n', '<leader>pv', manager.toggle_neotree)
-        vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>')
+        -- vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>')
+        vim.keymap.set('n', '<leader>e', '<cmd>Neotree reveal float<cr>')
         vim.keymap.set('n', '<leader>o', function()
             if vim.bo.filetype == "neo-tree" then
                 vim.cmd.wincmd "p"
