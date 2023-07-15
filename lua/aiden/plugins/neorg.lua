@@ -38,6 +38,7 @@ return {
                         close_after_use = true,
                     },
                 },
+                ["core.summary"] = {},
             },
         }
         vim.keymap.set('n', '<localleader>1', function()
