@@ -9,6 +9,11 @@ return {
                 ["core.concealer"] = {
                     config = {
                         icon_preset = "diamond",
+                        icons = {
+                            ordered = {
+                                icons = (not has_anticonceal) and { "1", "A", "a", "1", "A", "a" } or nil,
+                            },
+                        },
                     },
                 }, -- Adds pretty icons to your documents
                 ["core.dirman"] = { -- Manages Neorg workspaces
@@ -18,6 +23,19 @@ return {
                             college2023 = "~/notes/college2023",
                         },
                         default_workspace = "notes",
+                    },
+                },
+                ["core.keybinds"] = {
+                    config = {
+                        hook = function(keybinds)
+                            keybinds.map("norg", "n", "<localleader>c", "<cmd>Neorg toc qflist<cr>")
+                            keybinds.map("norg", "n", "<localleader>C", "<cmd>Neorg toc<cr>")
+                        end,
+                    },
+                },
+                ["core.qol.toc"] = {
+                    config = {
+                        close_after_use = true,
                     },
                 },
             },
