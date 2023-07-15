@@ -23,12 +23,14 @@ return {
             },
         }
         vim.keymap.set('n', '<localleader>1', function()
-            vim.cmd("Neorg workspace")
+            vim.cmd("Neorg workspace notes")
             vim.cmd("Neorg index")
         end)
         vim.keymap.set('n', '<localleader>2', function()
             vim.cmd("Neorg workspace college2023")
             vim.cmd("Neorg index")
         end)
+
+        vim.cmd("set conceallevel=2")
     end,
 }
