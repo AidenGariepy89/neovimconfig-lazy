@@ -30,6 +30,7 @@ return {
                         hook = function(keybinds)
                             keybinds.map("norg", "n", "<localleader>c", "<cmd>Neorg toc qflist<cr>")
                             keybinds.map("norg", "n", "<localleader>C", "<cmd>Neorg toc<cr>")
+                            keybinds.map("norg", "n", "<localleader>im", "<cmd>Neorg inject-metadata<cr>")
                         end,
                     },
                 },
