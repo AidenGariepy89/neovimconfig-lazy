@@ -10,8 +10,16 @@ function M.set_color(color)
 
     vim.cmd.color(c)
 
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    if M.file_exists('transparentbg') then
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end
+end
+
+function M.file_exists(path)
+    local f = io.open(path, "rb")
+    if f then f:close() end
+    return f~= nil
 end
 
 return M
