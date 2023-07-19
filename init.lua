@@ -27,3 +27,4 @@ require("lazy").setup("aiden.plugins", {
 })
 
 require('aiden.utils').set_color()
+require('aiden.configs')

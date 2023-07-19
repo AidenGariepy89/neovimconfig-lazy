@@ -9,7 +9,7 @@ return {
     init = function() vim.g.neo_tree_remove_legacy_commands = true end,
     config = function()
         -- vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>')
-        vim.keymap.set('n', '<leader>e', '<cmd>Neotree reveal float<cr>')
+        -- vim.keymap.set('n', '<leader>e', '<cmd>Neotree reveal float<cr>')
         vim.keymap.set('n', '<leader>o', function()
             if vim.bo.filetype == "neo-tree" then
                 vim.cmd.wincmd "p"
@@ -89,7 +89,7 @@ return {
             },
             filesystem = {
                 follow_current_file = true,
-                hijack_netrw_behavior = "open_current",
+                -- hijack_netrw_behavior = "open_current",
             },
             event_handlers = {
                 {
