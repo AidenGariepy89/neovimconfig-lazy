@@ -10,7 +10,7 @@ function M.set_color(color)
 
     vim.cmd.color(c)
 
-    if M.file_exists('transparentbg') then
+    if not M.file_exists(os.getenv('HOME') .. '/.nvimopaquebg') then
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     end
