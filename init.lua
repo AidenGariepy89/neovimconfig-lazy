@@ -28,3 +28,5 @@ require("lazy").setup("aiden.plugins", {
 
 require('aiden.utils').set_color()
 require('aiden.configs')
+
+vim.g.python3_host_prog = "/opt/homebrew/bin/python3"

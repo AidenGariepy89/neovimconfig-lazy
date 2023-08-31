@@ -19,7 +19,7 @@ vim.keymap.set('n', 'q:', '') -- get rid of that pesky menu
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<C-l>", "<cmd>silent !tmux neww tmux-home<CR>")
+-- vim.keymap.set("n", "<C-j>", "<cmd>silent !tmux neww tmux-home<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
