@@ -37,6 +37,17 @@ config.rust_analyzer.setup({
     },
 })
 
+local util = require('lspconfig.util')
+config.intelephense.setup({
+    default_config = {
+        root_dir = function(pattern)
+            local cwd = vim.loop.cwd()
+            local root = util.root_pattern('composer.json', '.git')(pattern)
+            return util.path.is_descendant(cwd, root) and cwd or root
+        end
+    }
+})
+
 lsp.setup()
 
 local cmp = require('cmp')
